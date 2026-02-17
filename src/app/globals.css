@@ -4,54 +4,111 @@
 
 @layer base {
   :root {
-    /* Deep Forest/Emerald Palette */
-    --background: 160 30% 6%;
-    /* Dark green-black */
-    --foreground: 160 10% 98%;
+    /* Neobrutalist Palette - Light Mode */
+    --background: 0 0% 100%;
+    /* Pure White */
+    --foreground: 0 0% 0%;
+    /* Pure Black */
 
-    --card: 160 25% 10%;
-    /* Slightly lighter dark green */
-    --card-foreground: 160 10% 98%;
+    --card: 0 0% 100%;
+    /* White */
+    --card-foreground: 0 0% 0%;
+    /* Black */
 
-    --popover: 160 25% 8%;
-    --popover-foreground: 160 10% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 158 64% 52%;
-    /* Vibrant Emerald */
-    --primary-foreground: 160 10% 5%;
+    --primary: 47 100% 50%;
+    /* Vibrant Yellow #FFD700 - based on screenshot */
+    --primary-foreground: 0 0% 0%;
+    /* Black text on Yellow */
 
-    --secondary: 160 20% 18%;
-    /* Dark Muted Green */
-    --secondary-foreground: 160 10% 98%;
+    --secondary: 153 60% 53%;
+    /* Vibrant Green #4ADE80 - based on screenshot */
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 160 15% 15%;
-    --muted-foreground: 160 5% 65%;
+    --muted: 0 0% 96%;
+    /* Light Gray for subtle backgrounds */
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 158 64% 52%;
-    --accent-foreground: 160 10% 98%;
+    --accent: 330 100% 50%;
+    /* Hot Pink for contrast/accents */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --constructive: 153 60% 53%;
+    /* Green */
+    --constructive-foreground: 0 0% 0%;
 
-    --border: 160 20% 15%;
-    /* Subtle borders */
-    --input: 160 20% 15%;
-    --ring: 158 64% 52%;
+    --destructive: 0 100% 50%;
+    /* Red */
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.75rem;
-    --radius-sm: 0.5rem;
-    --radius-md: 0.75rem;
-    --radius-lg: 1rem;
+    --border: 0 0% 0%;
+    /* Pure Black Borders */
+    --input: 0 0% 0%;
+    --ring: 0 0% 0%;
 
-    /* Calendar specific variables */
-    --cell-size: 2.5rem;
+    --radius: 0rem;
+    /* Sharp corners */
+    --radius-sm: 0rem;
+    --radius-md: 0.25rem;
+    /* Slight rounding for specific elements if needed */
+    --radius-lg: 0.5rem;
 
-    /* Chart colors optimized for Green theme */
-    --chart-1: 158 64% 52%;
-    --chart-2: 165 45% 40%;
-    --chart-3: 175 35% 30%;
-    --chart-4: 150 50% 60%;
-    --chart-5: 140 40% 70%;
+    /* Chart colors - Vibrant & High Contrast */
+    --chart-1: 47 100% 50%;
+    /* Yellow */
+    --chart-2: 153 60% 53%;
+    /* Green */
+    --chart-3: 330 100% 50%;
+    /* Pink */
+    --chart-4: 217 100% 50%;
+    /* Blue */
+    --chart-5: 25 100% 50%;
+    /* Orange */
+  }
+
+  .dark {
+    /* Neobrutalist Palette - Dark Mode */
+    --background: 0 0% 5%;
+    /* Almost Black */
+    --foreground: 0 0% 100%;
+    /* Pure White */
+
+    --card: 0 0% 10%;
+    /* Dark Gray */
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 47 100% 50%;
+    /* Yellow remains consistent */
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 153 60% 53%;
+    /* Green remains consistent */
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 330 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 100%;
+    /* White Borders in Dark Mode */
+    --input: 0 0% 100%;
+    --ring: 0 0% 100%;
+
+    --chart-1: 47 100% 50%;
+    --chart-2: 153 60% 53%;
+    --chart-3: 330 100% 50%;
+    --chart-4: 217 100% 50%;
+    --chart-5: 25 100% 50%;
   }
 }
 

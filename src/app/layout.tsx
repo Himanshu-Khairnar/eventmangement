@@ -1,6 +1,8 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/components/theme-provider";
+import { DataProvider } from "@/lib/store";
 
 export const metadata: Metadata = {
   title: 'CampusConnect',
@@ -21,7 +23,11 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased min-h-screen bg-background text-foreground">
-        {children}
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <DataProvider>
+            {children}
+          </DataProvider>
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>

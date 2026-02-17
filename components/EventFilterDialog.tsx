@@ -29,7 +29,7 @@ type EventFilterDialogProps = {
   onClearFilters: () => void;
 };
 
-const categories = ['Technical', 'Cultural', 'Sports'];
+const categories = ['Technical', 'Cultural', 'Sports', 'Workshop'];
 
 export default function EventFilterDialog({
   committees,
@@ -39,7 +39,7 @@ export default function EventFilterDialog({
   onCommitteeChange,
   onClearFilters
 }: EventFilterDialogProps) {
-  
+
   const activeFiltersCount = (categoryFilter !== 'all' ? 1 : 0) + (committeeFilter !== 'all' ? 1 : 0);
 
   return (
@@ -79,7 +79,7 @@ export default function EventFilterDialog({
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="committee" className="text-sm font-medium">
               Committee
@@ -98,20 +98,20 @@ export default function EventFilterDialog({
           </div>
         </div>
         <DialogFooter className="flex sm:justify-between items-center gap-2">
-            {activeFiltersCount > 0 ? (
-                <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={onClearFilters}
-                    className="text-muted-foreground hover:text-foreground text-xs"
-                >
-                    <X className="mr-2 h-3 w-3" />
-                    Reset Filters
-                </Button>
-            ) : <div />}
-            <DialogClose asChild>
-                <Button type="submit">Done</Button>
-            </DialogClose>
+          {activeFiltersCount > 0 ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onClearFilters}
+              className="text-muted-foreground hover:text-foreground text-xs"
+            >
+              <X className="mr-2 h-3 w-3" />
+              Reset Filters
+            </Button>
+          ) : <div />}
+          <DialogClose asChild>
+            <Button type="submit">Done</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

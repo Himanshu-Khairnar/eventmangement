@@ -1,4 +1,4 @@
-import type { Event } from './definitions';
+import type { Event, Team } from './definitions';
 import { PlaceHolderImages } from './placeholder-images';
 
 // In a real application, this would be a database.
@@ -92,24 +92,125 @@ export const getEventById = async (id: string) => {
 };
 
 export const addEvent = async (event: Omit<Event, 'id'>) => {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const newEvent = { ...event, id: String(Date.now()) };
-    events.unshift(newEvent);
-    return newEvent;
+  await new Promise(resolve => setTimeout(resolve, 300));
+  const newEvent = { ...event, id: String(Date.now()) };
+  events.unshift(newEvent);
+  return newEvent;
 }
 
 export const updateEvent = async (id: string, updatedEventData: Partial<Event>) => {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const eventIndex = events.findIndex(event => event.id === id);
-    if (eventIndex === -1) return null;
-    events[eventIndex] = { ...events[eventIndex], ...updatedEventData };
-    return events[eventIndex];
+  await new Promise(resolve => setTimeout(resolve, 300));
+  const eventIndex = events.findIndex(event => event.id === id);
+  if (eventIndex === -1) return null;
+  events[eventIndex] = { ...events[eventIndex], ...updatedEventData };
+  return events[eventIndex];
 }
 
 export const deleteEvent = async (id: string) => {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const eventIndex = events.findIndex(event => event.id === id);
-    if (eventIndex === -1) return false;
-    events.splice(eventIndex, 1);
-    return true;
+  await new Promise(resolve => setTimeout(resolve, 300));
+  const eventIndex = events.findIndex(event => event.id === id);
+  if (eventIndex === -1) return false;
+  events.splice(eventIndex, 1);
+  return true;
 }
+
+// Mock Teams Data
+export const teams: Team[] = [
+  {
+    id: 't1',
+    eventId: '1', // Nexus Hackathon
+    eventName: 'Nexus 2024 Hackathon',
+    projectTitle: 'Smart Campus Navigation',
+    abstract: 'An AR-based navigation system for the university campus to help new students and visitors find their way around easily.',
+    fileLink: 'https://example.com/project-presentation.pdf',
+    canvaLink: 'https://www.canva.com/design/DAFv...',
+    status: 'Approved',
+    members: [
+      {
+        name: 'Alice Johnson',
+        email: 'alice.j@college.edu',
+        studentId: '2021001',
+        year: '3',
+        branch: 'CSE',
+        role: 'leader',
+        resume: '/uploads/resumes/dummy-resume.pdf'
+      },
+      {
+        name: 'Bob Smith',
+        email: 'bob.s@college.edu',
+        studentId: '2021002',
+        year: '3',
+        branch: 'ECE',
+        role: 'member',
+        resume: '/uploads/resumes/dummy-resume.pdf'
+      }
+    ]
+  },
+  {
+    id: 't2',
+    eventId: '1', // Nexus Hackathon
+    eventName: 'Nexus 2024 Hackathon',
+    projectTitle: 'EcoTracker',
+    abstract: 'A mobile app to track carbon footprint and suggest daily habits to reduce environmental impact.',
+    fileLink: 'https://example.com/ecotracker-docs.pdf',
+    status: 'Pending',
+    members: [
+      {
+        name: 'Charlie Brown',
+        email: 'charlie.b@college.edu',
+        studentId: '2022045',
+        year: '2',
+        branch: 'Mech',
+        role: 'leader',
+        resume: '/uploads/resumes/dummy-resume.pdf'
+      },
+      {
+        name: 'Diana Prince',
+        email: 'diana.p@college.edu',
+        studentId: '2022046',
+        year: '2',
+        branch: 'CSE',
+        role: 'member',
+        resume: '/uploads/resumes/dummy-resume.pdf'
+      },
+      {
+        name: 'Evan Wright',
+        email: 'evan.w@college.edu',
+        studentId: '2022047',
+        year: '2',
+        branch: 'Civil',
+        role: 'member',
+        resume: '/uploads/resumes/dummy-resume.pdf'
+      }
+    ]
+  },
+  {
+    id: 't3',
+    eventId: '4', // AI/ML Workshop
+    eventName: 'AI/ML Workshop',
+    projectTitle: 'N/A (Individual Participation)',
+    abstract: 'Participation in workshop.',
+    status: 'Approved',
+    members: [
+      {
+        name: 'Fiona Gallagher',
+        email: 'fiona.g@college.edu',
+        studentId: '2023101',
+        year: '1',
+        branch: 'Data Science',
+        role: 'leader', // Individual participant listed as leader of 1-person team for consistency
+        resume: '/uploads/resumes/dummy-resume.pdf'
+      }
+    ]
+  }
+];
+
+export const getTeamsByEventId = async (eventId: string) => {
+  await new Promise(resolve => setTimeout(resolve, 300));
+  return teams.filter(team => team.eventId === eventId);
+};
+
+export const getAllTeams = async () => {
+  await new Promise(resolve => setTimeout(resolve, 300));
+  return teams;
+};

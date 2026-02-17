@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Deep Forest/Emerald Palette */
+    --background: 160 30% 6%;         /* Dark green-black */
+    --foreground: 160 10% 98%;
+    
+    --card: 160 25% 10%;              /* Slightly lighter dark green */
+    --card-foreground: 160 10% 98%;
+    
+    --popover: 160 25% 8%;
+    --popover-foreground: 160 10% 98%;
+    
+    --primary: 158 64% 52%;           /* Vibrant Emerald */
+    --primary-foreground: 160 10% 5%;
+    
+    --secondary: 160 20% 18%;         /* Dark Muted Green */
+    --secondary-foreground: 160 10% 98%;
+    
+    --muted: 160 15% 15%;
+    --muted-foreground: 160 5% 65%;
+    
+    --accent: 158 64% 52%;
+    --accent-foreground: 160 10% 98%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 160 20% 15%;            /* Subtle borders */
+    --input: 160 20% 15%;
+    --ring: 158 64% 52%;
+    
+    --radius: 0.75rem;
+
+    /* Chart colors optimized for Green theme */
+    --chart-1: 158 64% 52%;
+    --chart-2: 165 45% 40%;
+    --chart-3: 175 35% 30%;
+    --chart-4: 150 50% 60%;
+    --chart-5: 140 40% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}

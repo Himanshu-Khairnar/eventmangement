@@ -1,5 +1,6 @@
 import { getEvents } from '@/lib/data';
 import EventDataTable from '@/components/admin/EventDataTable';
+import EnrollmentChart from '@/components/admin/EnrollmentChart';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { PlusCircle } from 'lucide-react';
@@ -17,6 +18,9 @@ export default async function DashboardPage() {
           </Link>
         </Button>
       </div>
+      
+      <EnrollmentChart />
+      
       <EventDataTable events={events} />
     </div>
   );

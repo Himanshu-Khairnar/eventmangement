@@ -1,4 +1,3 @@
-// REMOVED 'use client' - This is now a Server Component
 import { getEventById, getEvents } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -10,6 +9,7 @@ import { format } from 'date-fns';
 import Header from '@/components/Header';
 import Link from 'next/link';
 import React from 'react';
+import RegistrationSelector from '@/components/RegistrationSelector';
 
 export async function generateStaticParams() {
   const events = await getEvents();
@@ -73,16 +73,21 @@ export default async function EventDetailPage({ params }: PageProps) {
               <hr className="border-white/5" />
 
               <div className="prose prose-invert max-w-none">
-                <h3 className="text-xl font-semibold text-white mb-4">About this event</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
+                <h3 className="text-2xl font-semibold text-white mb-6">About this event</h3>
+                <p className="text-xl text-muted-foreground leading-relaxed whitespace-pre-line">
                   {event.description}
+                </p>
+                {/* Placeholder for more content */}
+                <p className="text-lg text-muted-foreground">
+                    Join us for an unforgettable experience. Make sure to bring your student ID card.
+                    Refreshments will be provided.
                 </p>
               </div>
             </div>
 
             <div className="lg:col-span-4">
               <aside className="sticky top-24 space-y-6">
-                <Card className="bg-card/50 backdrop-blur-lg border-white/5 shadow-xl">
+                <Card className="bg-card/50 backdrop-blur-lg border-white/5 shadow-xl mb-6">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-lg font-semibold text-white">Event Information</CardTitle>
                   </CardHeader>
@@ -94,13 +99,9 @@ export default async function EventDetailPage({ params }: PageProps) {
                   </CardContent>
                 </Card>
 
-                <Button asChild size="lg" className="w-full h-14 text-lg font-bold shadow-[0_0_20px_-5px_rgba(16,185,129,0.4)]">
-                  <a href={event.registrationLink} target="_blank" rel="noopener noreferrer">
-                    Register Now <ArrowRight className="ml-2 h-5 w-5" />
-                  </a>
-                </Button>
+                <RegistrationSelector eventId={event.id} eventName={event.name} />
                 
-                <p className="text-center text-xs text-muted-foreground uppercase tracking-widest">
+                <p className="text-center text-xs text-muted-foreground uppercase tracking-widest mt-4">
                   Limited slots available
                 </p>
               </aside>

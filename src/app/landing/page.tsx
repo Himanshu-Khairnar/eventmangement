@@ -38,7 +38,7 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/events">
+            <Link href="/">
             <Button className="h-14 px-10 rounded-full bg-primary hover:bg-primary-hover text-black font-bold shadow-glow transition-all active:scale-95">
               Get Started
             </Button>

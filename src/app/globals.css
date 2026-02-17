@@ -5,35 +5,46 @@
 @layer base {
   :root {
     /* Deep Forest/Emerald Palette */
-    --background: 160 30% 6%;         /* Dark green-black */
+    --background: 160 30% 6%;
+    /* Dark green-black */
     --foreground: 160 10% 98%;
-    
-    --card: 160 25% 10%;              /* Slightly lighter dark green */
+
+    --card: 160 25% 10%;
+    /* Slightly lighter dark green */
     --card-foreground: 160 10% 98%;
-    
+
     --popover: 160 25% 8%;
     --popover-foreground: 160 10% 98%;
-    
-    --primary: 158 64% 52%;           /* Vibrant Emerald */
+
+    --primary: 158 64% 52%;
+    /* Vibrant Emerald */
     --primary-foreground: 160 10% 5%;
-    
-    --secondary: 160 20% 18%;         /* Dark Muted Green */
+
+    --secondary: 160 20% 18%;
+    /* Dark Muted Green */
     --secondary-foreground: 160 10% 98%;
-    
+
     --muted: 160 15% 15%;
     --muted-foreground: 160 5% 65%;
-    
+
     --accent: 158 64% 52%;
     --accent-foreground: 160 10% 98%;
-    
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    
-    --border: 160 20% 15%;            /* Subtle borders */
+
+    --border: 160 20% 15%;
+    /* Subtle borders */
     --input: 160 20% 15%;
     --ring: 158 64% 52%;
-    
+
     --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+
+    /* Calendar specific variables */
+    --cell-size: 2.5rem;
 
     /* Chart colors optimized for Green theme */
     --chart-1: 158 64% 52%;
@@ -48,8 +59,164 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Custom animations */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-in-from-bottom {
+    from {
+      transform: translateY(1rem);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-in-from-top {
+    from {
+      transform: translateY(-1rem);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-in {
+    animation: fade-in 0.3s ease-out both;
+  }
+
+  .fade-in {
+    animation: fade-in 0.5s ease-out both;
+  }
+
+  .slide-in-from-bottom-4 {
+    animation: slide-in-from-bottom 0.5s ease-out both;
+  }
+
+  .slide-in-from-top-4 {
+    animation: slide-in-from-top 0.5s ease-out both;
+  }
+
+  .scale-in {
+    animation: scale-in 0.3s ease-out both;
+  }
+
+  /* Enhanced calendar styling */
+  .calendar-enhanced {
+    @apply rounded-xl overflow-hidden;
+  }
+
+  .calendar-enhanced .rdp-day_selected {
+    @apply bg-primary text-primary-foreground font-bold;
+  }
+
+  .calendar-enhanced .rdp-day_today {
+    @apply font-bold text-primary ring-2 ring-primary/50 ring-offset-2 ring-offset-background;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary via-emerald-400 to-primary bg-clip-text text-transparent;
+  }
+
+  /* Glass morphism */
+  .glass-card {
+    @apply bg-card/30 backdrop-blur-xl border border-white/10 shadow-2xl;
+  }
+
+  /* Smooth transitions */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Calendar specific utilities */
+  .size-\(--cell-size\) {
+    width: var(--cell-size);
+    height: var(--cell-size);
+  }
+
+  .min-w-\(--cell-size\) {
+    min-width: var(--cell-size);
+  }
+
+  .h-\(--cell-size\) {
+    height: var(--cell-size);
+  }
+
+  .w-\(--cell-size\) {
+    width: var(--cell-size);
+  }
+
+  .px-\(--cell-size\) {
+    padding-left: var(--cell-size);
+    padding-right: var(--cell-size);
+  }
+
+  .rounded-\(--cell-radius\) {
+    border-radius: var(--radius-md);
+  }
+
+  .rounded-l-\(--cell-radius\) {
+    border-top-left-radius: var(--radius-md);
+    border-bottom-left-radius: var(--radius-md);
+  }
+
+  .rounded-r-\(--cell-radius\) {
+    border-top-right-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+  }
+
+  /* RTL flip utility */
+  .cn-rtl-flip {
+    @apply rtl:scale-x-[-1];
+  }
+
+  /* Calendar dropdown styling */
+  .cn-calendar-dropdown-root:hover .cn-calendar-caption-label {
+    @apply bg-muted/50;
   }
 }

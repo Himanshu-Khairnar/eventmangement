@@ -24,25 +24,16 @@ export default function AdminSidebar() {
   }, []);
 
   return (
-    <aside className="w-64 h-screen sticky top-0 bg-background border-r flex flex-col transition-colors duration-300">
+    <aside className="w-64 h-screen sticky top-0 bg-background border-r-4 border-black flex flex-col transition-colors duration-300">
       <div
-        className="p-4 border-b flex items-center gap-2 cursor-pointer hover:bg-muted/50 transition-colors group"
+        className="p-4 border-b-4 border-black flex items-center gap-2 cursor-pointer hover:bg-muted/50 transition-colors group"
         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         title="Toggle Theme"
       >
         <VenetianMask className="h-8 w-8 text-primary transition-transform group-hover:scale-110" />
         <div className="flex flex-col">
           <span className="font-headline text-2xl font-bold leading-none">CampusConnect</span>
-          <span className="text-[10px] text-muted-foreground font-medium flex items-center gap-1 mt-1">
-            {mounted ? (
-              <>
-                {theme === 'dark' ? <Moon className="h-3 w-3" /> : <Sun className="h-3 w-3" />}
-                <span>{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>
-              </>
-            ) : (
-              <span>Loading...</span>
-            )}
-          </span>
+
         </div>
       </div>
       <nav className="flex-1 p-4 space-y-2">
@@ -50,8 +41,8 @@ export default function AdminSidebar() {
           <Link key={item.href} href={item.href}>
             <span
               className={cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-primary/10',
-                pathname === item.href && 'bg-primary/10 text-primary'
+                'flex items-center gap-3 px-3 py-2 text-black font-bold border-2 border-transparent transition-all hover:bg-accent hover:border-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]',
+                pathname === item.href && 'bg-primary border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
               )}
             >
               <item.icon className="h-5 w-5" />
@@ -60,9 +51,9 @@ export default function AdminSidebar() {
           </Link>
         ))}
       </nav>
-      <div className="p-4 border-t">
-        <Button variant="outline" className="w-full justify-start gap-2" asChild>
-          <Link href="/">
+      <div className="p-4 border-t-4 border-black">
+        <Button variant="outline" className="w-full justify-start gap-2 border-2 border-black rounded-none hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] hover:translate-x-[-2px] transition-all" asChild>
+          <Link href="/events">
             <ArrowLeft className="h-4 w-4" />
             Back to Site
           </Link>

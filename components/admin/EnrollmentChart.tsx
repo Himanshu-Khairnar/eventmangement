@@ -15,7 +15,7 @@ const dafaultData = [
 
 export default function EnrollmentChart() {
   return (
-    <Card className="col-span-4">
+    <Card className="col-span-4 border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
       <CardHeader>
         <CardTitle>Event Enrollments</CardTitle>
         <CardDescription>
@@ -43,9 +43,9 @@ export default function EnrollmentChart() {
             />
             <Tooltip 
                 cursor={{ fill: 'transparent' }}
-                contentStyle={{ borderRadius: '8px', border: '1px solid #333', backgroundColor: '#000', color: '#fff' }}
+                contentStyle={{ borderRadius: '0px', border: '2px solid #000', backgroundColor: '#fff', color: '#000', boxShadow: '4px 4px 0px 0px rgba(0,0,0,1)' }}
             />
-            <Bar dataKey="total" fill="currentColor" radius={[4, 4, 0, 0]} className="fill-primary" />
+            <Bar dataKey="total" fill="currentColor" radius={[0, 0, 0, 0]} className="fill-primary stroke-black stroke-2" />
           </BarChart>
         </ResponsiveContainer>
       </CardContent>

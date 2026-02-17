@@ -40,10 +40,10 @@ export default function EventList({ events }: EventListProps) {
 
   return (
     <Tabs defaultValue="upcoming" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-        <TabsTrigger value="ongoing">Ongoing</TabsTrigger>
-        <TabsTrigger value="past">Past</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-3 bg-white border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-0 h-12">
+        <TabsTrigger value="upcoming" className="h-full rounded-none data-[state=active]:bg-black data-[state=active]:text-white font-bold transition-all uppercase">Upcoming</TabsTrigger>
+        <TabsTrigger value="ongoing" className="h-full rounded-none data-[state=active]:bg-black data-[state=active]:text-white font-bold transition-all uppercase">Ongoing</TabsTrigger>
+        <TabsTrigger value="past" className="h-full rounded-none data-[state=active]:bg-black data-[state=active]:text-white font-bold transition-all uppercase">Past</TabsTrigger>
       </TabsList>
       <TabsContent value="upcoming" className="mt-6">
         {renderEventGrid(upcoming, "No upcoming events found with the current filters.")}

@@ -16,7 +16,7 @@ export default function ParticipationStats({
 }: ParticipationStatsProps) {
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Card className="bg-gradient-to-br from-card to-muted/20 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-primary/20">
+            <Card className="bg-white border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-300">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium text-muted-foreground">
                         Total Events
@@ -28,7 +28,7 @@ export default function ParticipationStats({
                 </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-card to-muted/20 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-blue-500/20">
+            <Card className="bg-white border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-300">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium text-muted-foreground">
                         Total Teams
@@ -40,7 +40,7 @@ export default function ParticipationStats({
                 </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-card to-muted/20 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-green-500/20">
+            <Card className="bg-white border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-300">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium text-muted-foreground">
                         Approved Teams
@@ -52,7 +52,7 @@ export default function ParticipationStats({
                 </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-card to-muted/20 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-yellow-500/20">
+            <Card className="bg-white border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-300">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium text-muted-foreground">
                         Pending Teams

@@ -17,7 +17,7 @@ interface ResumeViewerProps {
 export default function ResumeViewer({ isOpen, onClose, resumeUrl, studentName }: ResumeViewerProps) {
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-4xl h-[90vh] flex flex-col">
+            <DialogContent className="max-w-4xl h-[90vh] flex flex-col border-2 border-black rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                 <DialogHeader>
                     <DialogTitle>Resume: {studentName}</DialogTitle>
                 </DialogHeader>

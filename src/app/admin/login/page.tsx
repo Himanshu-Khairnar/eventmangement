@@ -36,27 +36,27 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background p-4">
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm border-2 border-black rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <form onSubmit={handleLogin}>
           <CardHeader className="text-center">
              <div className="flex justify-center mb-4">
-                <VenetianMask className="h-10 w-10 text-primary" />
+                <VenetianMask className="h-10 w-10 text-primary border-2 border-black p-1 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" />
              </div>
-            <CardTitle className="font-headline text-2xl">Admin Panel</CardTitle>
+            <CardTitle className="font-headline text-2xl font-black uppercase">Admin Panel</CardTitle>
             <CardDescription>Enter credentials to access the dashboard. <br/> (admin/password)</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <Input id="username" value={username} onChange={(e) => setUsername(e.target.value)} required placeholder="admin" />
+              <Label htmlFor="username" className="font-bold uppercase">Username</Label>
+              <Input id="username" value={username} onChange={(e) => setUsername(e.target.value)} required placeholder="admin" className="border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white focus-visible:ring-0" />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="password" />
+              <Label htmlFor="password" className="font-bold uppercase">Password</Label>
+              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="password" className="border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white focus-visible:ring-0" />
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full" type="submit" disabled={isLoading}>
+            <Button className="w-full neubrutalist-btn rounded-none bg-primary text-black font-bold hover:bg-primary/90" type="submit" disabled={isLoading}>
                 {isLoading ? 'Logging in...' : 'Log in'}
             </Button>
           </CardFooter>

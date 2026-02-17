@@ -4,111 +4,74 @@
 
 @layer base {
   :root {
-    /* Neobrutalist Palette - Light Mode */
+    /* Neubrutalism Theme */
     --background: 0 0% 100%;
-    /* Pure White */
+    /* White */
     --foreground: 0 0% 0%;
-    /* Pure Black */
+    /* Black */
 
     --card: 0 0% 100%;
-    /* White */
     --card-foreground: 0 0% 0%;
-    /* Black */
 
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
 
-    --primary: 47 100% 50%;
-    /* Vibrant Yellow #FFD700 - based on screenshot */
+    --primary: 158 64% 52%;
+    /* Keep the green for branding */
     --primary-foreground: 0 0% 0%;
-    /* Black text on Yellow */
 
-    --secondary: 153 60% 53%;
-    /* Vibrant Green #4ADE80 - based on screenshot */
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 262 83% 58%;
+    /* A clear purple for contrast if needed, or just light gray */
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 96%;
-    /* Light Gray for subtle backgrounds */
-    --muted-foreground: 0 0% 40%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 330 100% 50%;
-    /* Hot Pink for contrast/accents */
-    --accent-foreground: 0 0% 100%;
+    --accent: 47 95% 57%;
+    /* Bright Yellow */
+    --accent-foreground: 0 0% 0%;
 
-    --constructive: 153 60% 53%;
-    /* Green */
-    --constructive-foreground: 0 0% 0%;
-
-    --destructive: 0 100% 50%;
-    /* Red */
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
     --border: 0 0% 0%;
-    /* Pure Black Borders */
-    --input: 0 0% 0%;
+    /* Black borders */
+    --input: 0 0% 100%;
     --ring: 0 0% 0%;
 
-    --radius: 0rem;
-    /* Sharp corners */
-    --radius-sm: 0rem;
-    --radius-md: 0.25rem;
-    /* Slight rounding for specific elements if needed */
-    --radius-lg: 0.5rem;
+    --radius: 0.5rem;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
 
-    /* Chart colors - Vibrant & High Contrast */
-    --chart-1: 47 100% 50%;
-    /* Yellow */
-    --chart-2: 153 60% 53%;
-    /* Green */
-    --chart-3: 330 100% 50%;
-    /* Pink */
-    --chart-4: 217 100% 50%;
-    /* Blue */
-    --chart-5: 25 100% 50%;
-    /* Orange */
+    /* Calendar specific variables */
+    --cell-size: 2.5rem;
+
+    /* Chart colors */
+    --chart-1: 158 64% 52%;
+    --chart-2: 0 0% 0%;
+    --chart-3: 47 95% 57%;
+    --chart-4: 262 83% 58%;
+    --chart-5: 0 0% 60%;
   }
 
-  .dark {
-    /* Neobrutalist Palette - Dark Mode */
-    --background: 0 0% 5%;
-    /* Almost Black */
-    --foreground: 0 0% 100%;
-    /* Pure White */
 
-    --card: 0 0% 10%;
-    /* Dark Gray */
-    --card-foreground: 0 0% 100%;
+}
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 100%;
+@layer utilities {
+  .neubrutalist-card {
+    @apply border-2 border-black bg-card text-card-foreground;
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
 
-    --primary: 47 100% 50%;
-    /* Yellow remains consistent */
-    --primary-foreground: 0 0% 0%;
+  .neubrutalist-btn {
+    @apply border-2 border-black hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all active:translate-x-[4px] active:translate-y-[4px] active:shadow-none bg-primary text-primary-foreground font-bold;
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
 
-    --secondary: 153 60% 53%;
-    /* Green remains consistent */
-    --secondary-foreground: 0 0% 0%;
-
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 70%;
-
-    --accent: 330 100% 50%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 100% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 100%;
-    /* White Borders in Dark Mode */
-    --input: 0 0% 100%;
-    --ring: 0 0% 100%;
-
-    --chart-1: 47 100% 50%;
-    --chart-2: 153 60% 53%;
-    --chart-3: 330 100% 50%;
-    --chart-4: 217 100% 50%;
-    --chart-5: 25 100% 50%;
+  .neubrutalist-img {
+    @apply border-2 border-black;
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
   }
 }
 
@@ -182,6 +145,20 @@
     }
   }
 
+  @keyframes event-pulse {
+
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    50% {
+      transform: scale(1.3);
+      opacity: 0.7;
+    }
+  }
+
   .animate-in {
     animation: fade-in 0.3s ease-out both;
   }
@@ -200,6 +177,10 @@
 
   .scale-in {
     animation: scale-in 0.3s ease-out both;
+  }
+
+  .event-pulse {
+    animation: event-pulse 2s ease-in-out infinite;
   }
 
   /* Enhanced calendar styling */

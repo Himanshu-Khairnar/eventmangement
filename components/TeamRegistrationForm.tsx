@@ -28,44 +28,63 @@ import { Progress } from '@/components/ui/progress';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_FILE_TYPES = ['application/pdf'];
 
-const memberSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  studentId: z.string().min(5, {
-    message: "Student ID must be at least 5 characters.",
-  }),
-  year: z.string({
-    required_error: "Please select your year.",
-  }),
-  branch: z.string().min(2, {
-    message: "Branch is required (e.g. CSE, ECE).",
-  }),
-  resume: z.any().refine((file) => file instanceof File, {
-    message: "Resume is required.",
-  }).refine((file) => file instanceof File && file.size <= MAX_FILE_SIZE, {
-    message: "Resume must be less than 5MB.",
-  }).refine((file) => file instanceof File && ACCEPTED_FILE_TYPES.includes(file.type), {
-    message: "Only PDF files are accepted.",
-  }),
-});
+const createMemberSchema = (resumeRequired: boolean) => {
+  const baseSchema = {
+    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    email: z.string().email({ message: "Please enter a valid email address." }),
+    studentId: z.string().min(5, { message: "Student ID must be at least 5 characters." }),
+    year: z.string({ required_error: "Please select your year." }),
+    branch: z.string().min(2, { message: "Branch is required (e.g. CSE, ECE)." }),
+  };
 
-type MemberFormData = z.infer<typeof memberSchema>;
+  if (resumeRequired) {
+    return z.object({
+      ...baseSchema,
+      resume: z.any()
+        .refine((file) => file instanceof File, { message: "Resume is required." })
+        .refine((file) => file instanceof File && file.size <= MAX_FILE_SIZE, { message: "Resume must be less than 5MB." })
+        .refine((file) => file instanceof File && ACCEPTED_FILE_TYPES.includes(file.type), { message: "Only PDF files are accepted." }),
+    });
+  }
 
-interface TeamMember extends MemberFormData {
+  return z.object(baseSchema);
+};
+
+type MemberFormDataBase = {
+  name: string;
+  email: string;
+  studentId: string;
+  year: string;
+  branch: string;
+  resume?: File;
+};
+
+interface TeamMember extends MemberFormDataBase {
   role: 'leader' | 'member';
 }
 
-export default function TeamRegistrationForm({ eventId, eventName }: { eventId: string, eventName: string }) {
+export default function TeamRegistrationForm({
+  eventId,
+  eventName,
+  minTeamSize = 2,
+  maxTeamSize = 4,
+  resumeRequired = false
+}: {
+  eventId: string;
+  eventName: string;
+  minTeamSize?: number;
+  maxTeamSize?: number;
+  resumeRequired?: boolean;
+}) {
+  const memberSchema = createMemberSchema(resumeRequired);
+  type MemberFormData = z.infer<typeof memberSchema>;
+
   const [currentStep, setCurrentStep] = useState(0);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const form = useForm<MemberFormData>({
+  const form = useForm<MemberFormDataBase>({
     resolver: zodResolver(memberSchema),
     defaultValues: {
       name: "",
@@ -75,8 +94,9 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
     },
   });
 
-  const totalSteps = 4; // 1 leader + 3 members
+  const totalSteps = maxTeamSize;
   const progress = ((currentStep + 1) / totalSteps) * 100;
+  const canSkip = teamMembers.length >= minTeamSize;
 
   async function onSubmit(values: MemberFormData) {
     const role = currentStep === 0 ? 'leader' : 'member';
@@ -91,6 +111,13 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
     } else {
       // Submit all team members
       await submitTeam([...teamMembers, newMember]);
+    }
+  }
+
+  async function handleFinishEarly() {
+    // Submit with current team members (must meet minimum)
+    if (teamMembers.length >= minTeamSize) {
+      await submitTeam(teamMembers);
     }
   }
 
@@ -109,7 +136,9 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
         formData.append(`member${index}_year`, member.year);
         formData.append(`member${index}_branch`, member.branch);
         formData.append(`member${index}_role`, member.role);
-        formData.append(`member${index}_resume`, member.resume);
+        if (member.resume) {
+          formData.append(`member${index}_resume`, member.resume);
+        }
       });
 
       const response = await fetch('/api/register-team', {
@@ -146,14 +175,14 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
 
   if (isSuccess) {
     return (
-      <Card className="bg-primary/10 border-primary/20 shadow-lg">
+      <Card className="bg-green-100 border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none">
         <CardContent className="pt-6 flex flex-col items-center text-center space-y-4">
-          <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+          <div className="h-16 w-16 bg-black flex items-center justify-center text-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0)]">
             <CheckCircle2 className="h-8 w-8" />
           </div>
           <div>
-            <CardTitle className="text-2xl">Team Registration Successful!</CardTitle>
-            <CardDescription className="mt-2 text-foreground/80">
+            <CardTitle className="text-2xl font-black uppercase text-black">Team Registration Successful!</CardTitle>
+            <CardDescription className="mt-2 text-black font-medium">
               Your team has been successfully registered for <strong>{eventName}</strong>.
               <br />
               Confirmation emails have been sent to all team members.
@@ -167,7 +196,7 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
               form.reset();
             }}
             variant="outline"
-            className="mt-4"
+            className="mt-4 neubrutalist-btn bg-white hover:bg-white text-black hover:text-black"
           >
             Register Another Team
           </Button>
@@ -182,18 +211,18 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
   };
 
   return (
-    <Card className="bg-card/50 backdrop-blur-lg border-white/5 shadow-xl">
-      <CardHeader>
+    <Card className="bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-none">
+      <CardHeader className="border-b-2 border-black bg-yellow-300">
         <div className="flex items-center gap-2 mb-2">
-          <Users className="h-5 w-5 text-primary" />
-          <CardTitle>Team Registration - {getCurrentRole()}</CardTitle>
+          <Users className="h-5 w-5 text-black" />
+          <CardTitle className="font-black uppercase text-black">Team Registration - {getCurrentRole()}</CardTitle>
         </div>
-        <CardDescription>
-          Register for {eventName} (Step {currentStep + 1} of {totalSteps})
+        <CardDescription className="text-black font-bold text-opacity-80">
+          Register for {eventName} (Step {currentStep + 1} of {totalSteps}) • Min {minTeamSize}, Max {maxTeamSize}
         </CardDescription>
-        <Progress value={progress} className="mt-4" />
+        <Progress value={progress} className="mt-4 h-4 border-2 border-black rounded-none bg-white [&>div]:bg-black" />
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -201,11 +230,11 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel className="text-black font-bold uppercase text-xs">Full Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} className="bg-background/50" />
+                    <Input placeholder="John Doe" {...field} className="bg-white border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus-visible:ring-0 focus-visible:translate-x-[2px] focus-visible:translate-y-[2px] focus-visible:shadow-none transition-all placeholder:text-black/30 font-bold" />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-600 font-bold" />
                 </FormItem>
               )}
             />
@@ -215,11 +244,11 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Address</FormLabel>
+                  <FormLabel className="text-black font-bold uppercase text-xs">Email Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="john.doe@college.edu" {...field} className="bg-background/50" />
+                    <Input placeholder="john.doe@college.edu" {...field} className="bg-white border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus-visible:ring-0 focus-visible:translate-x-[2px] focus-visible:translate-y-[2px] focus-visible:shadow-none transition-all placeholder:text-black/30 font-bold" />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-600 font-bold" />
                 </FormItem>
               )}
             />
@@ -230,11 +259,11 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
                 name="studentId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Student ID</FormLabel>
+                    <FormLabel className="text-black font-bold uppercase text-xs">Student ID</FormLabel>
                     <FormControl>
-                      <Input placeholder="123456" {...field} className="bg-background/50" />
+                      <Input placeholder="123456" {...field} className="bg-white border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus-visible:ring-0 focus-visible:translate-x-[2px] focus-visible:translate-y-[2px] focus-visible:shadow-none transition-all placeholder:text-black/30 font-bold" />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-600 font-bold" />
                   </FormItem>
                 )}
               />
@@ -244,21 +273,21 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
                 name="year"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Year</FormLabel>
+                    <FormLabel className="text-black font-bold uppercase text-xs">Year</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="bg-background/50">
+                        <SelectTrigger className="bg-white border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:ring-0 text-black font-bold">
                           <SelectValue placeholder="Select Year" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="1">1st Year</SelectItem>
-                        <SelectItem value="2">2nd Year</SelectItem>
-                        <SelectItem value="3">3rd Year</SelectItem>
-                        <SelectItem value="4">4th Year</SelectItem>
+                      <SelectContent className="bg-white border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <SelectItem value="1" className="focus:bg-yellow-200 focus:text-black font-bold">1st Year</SelectItem>
+                        <SelectItem value="2" className="focus:bg-yellow-200 focus:text-black font-bold">2nd Year</SelectItem>
+                        <SelectItem value="3" className="focus:bg-yellow-200 focus:text-black font-bold">3rd Year</SelectItem>
+                        <SelectItem value="4" className="focus:bg-yellow-200 focus:text-black font-bold">4th Year</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
+                    <FormMessage className="text-red-600 font-bold" />
                   </FormItem>
                 )}
               />
@@ -269,42 +298,43 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
               name="branch"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Branch/Department</FormLabel>
+                  <FormLabel className="text-black font-bold uppercase text-xs">Branch/Department</FormLabel>
                   <FormControl>
-                    <Input placeholder="CSE, ECE, Mech..." {...field} className="bg-background/50" />
+                    <Input placeholder="CSE, ECE, Mech..." {...field} className="bg-white border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus-visible:ring-0 focus-visible:translate-x-[2px] focus-visible:translate-y-[2px] focus-visible:shadow-none transition-all placeholder:text-black/30 font-bold" />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-600 font-bold" />
                 </FormItem>
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="resume"
-              render={({ field: { value, onChange, ...field } }) => (
-                <FormItem>
-                  <FormLabel>Resume (PDF only, max 5MB)</FormLabel>
-                  <FormControl>
-                    <div className="flex items-center gap-2">
-                      <Input
-                        type="file"
-                        accept=".pdf"
-                        className="bg-background/50"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            onChange(file);
-                          }
-                        }}
-                        {...field}
-                      />
-                      <Upload className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {resumeRequired && (
+              <FormField
+                control={form.control}
+                name="resume"
+                render={({ field: { value, onChange, ...field } }) => (
+                  <FormItem>
+                    <FormLabel className="text-black font-bold uppercase text-xs">Resume (PDF only, max 5MB)</FormLabel>
+                    <FormControl>
+                      <div className="flex items-center gap-2">
+                        <Input
+                          type="file"
+                          accept=".pdf"
+                          className="bg-white border-2 border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus-visible:ring-0 focus-visible:translate-x-[2px] focus-visible:translate-y-[2px] focus-visible:shadow-none transition-all file:text-black file:font-bold file:bg-yellow-300 file:border-0 file:mr-4 file:px-4 file:py-2 h-12 pt-1.5"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              onChange(file);
+                            }
+                          }}
+                          {...field}
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-red-600 font-bold" />
+                  </FormItem>
+                )}
+              />
+            )}
 
             <div className="flex gap-2 mt-6">
               {currentStep > 0 && (
@@ -312,15 +342,27 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
                   type="button"
                   variant="outline"
                   onClick={handleBack}
-                  className="flex-1"
+                  className="flex-1 neubrutalist-btn bg-white hover:bg-white text-black hover:text-black"
                   disabled={isSubmitting}
                 >
                   Back
                 </Button>
               )}
+
+              {canSkip && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleFinishEarly}
+                  className="flex-1 border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all bg-blue-200 hover:bg-blue-300 text-black font-bold"
+                  disabled={isSubmitting}
+                >
+                  Finish with {teamMembers.length} Members
+                </Button>
+              )}
               <Button
                 type="submit"
-                className="flex-1"
+                className="flex-1 neubrutalist-btn h-12 text-lg"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -337,11 +379,11 @@ export default function TeamRegistrationForm({ eventId, eventName }: { eventId: 
             </div>
 
             {teamMembers.length > 0 && (
-              <div className="mt-4 p-3 bg-primary/5 rounded-lg">
-                <p className="text-sm font-medium mb-2">Team Members Added:</p>
+              <div className="mt-4 p-3 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <p className="text-sm font-bold mb-2 text-black uppercase">Team Members Added:</p>
                 <ul className="text-sm space-y-1">
                   {teamMembers.map((member, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
+                    <li key={idx} className="flex items-center gap-2 text-black font-medium">
                       <CheckCircle2 className="h-4 w-4 text-primary" />
                       {member.role === 'leader' ? '👑' : '👤'} {member.name} ({member.email})
                     </li>

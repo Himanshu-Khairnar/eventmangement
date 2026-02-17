@@ -33,7 +33,7 @@ export default function ParticipationList({ events, teams }: ParticipationListPr
                         <AccordionItem
                             key={event.id}
                             value={event.id}
-                            className="border border-border/40 rounded-xl overflow-hidden bg-card/40 shadow-sm hover:shadow-md transition-all duration-300"
+                            className="border-2 border-black rounded-none overflow-hidden bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-300 mb-4"
                         >
                             <AccordionTrigger className="hover:no-underline px-6 py-5 group">
                                 <div className="flex items-center justify-between w-full pr-4">
@@ -45,21 +45,21 @@ export default function ParticipationList({ events, teams }: ParticipationListPr
                                             <span>{new Date(event.date).toLocaleDateString()}</span>
                                         </div>
                                     </div>
-                                    <Badge variant="outline" className="ml-4 bg-muted/30 border-primary/20 text-primary">
+                                    <Badge variant="outline" className="ml-4 bg-primary border-2 border-black text-black rounded-none font-bold">
                                         {eventTeams.length} {eventTeams.length === 1 ? 'Team' : 'Teams'}
                                     </Badge>
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent className="px-6 pb-6 pt-2 bg-muted/5">
                                 {eventTeams.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground border-2 border-dashed border-muted/30 rounded-lg">
+                                    <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground border-2 border-dashed border-black rounded-none">
                                         <Github className="h-10 w-10 mb-3 opacity-20" />
                                         <p>No teams have registered for this event yet.</p>
                                     </div>
                                 ) : (
                                     <div className="grid gap-4">
                                         {eventTeams.map((team) => (
-                                            <Card key={team.id} className="bg-background border-border/50 hover:border-primary/30 transition-colors shadow-sm">
+                                            <Card key={team.id} className="bg-white border-2 border-black rounded-none shadow-sm">
                                                 <CardHeader className="pb-3">
                                                     <div className="flex justify-between items-start gap-4">
                                                         <div className="space-y-1.5">
@@ -69,8 +69,8 @@ export default function ParticipationList({ events, teams }: ParticipationListPr
                                                                     variant="secondary"
                                                                     className={
                                                                         team.status === 'Approved'
-                                                                            ? "bg-green-500/10 text-green-600 dark:text-green-400 hover:bg-green-500/20"
-                                                                            : "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-500/20"
+                                                                            ? "bg-green-100 text-black border-2 border-black rounded-none"
+                                                                            : "bg-yellow-100 text-black border-2 border-black rounded-none"
                                                                     }
                                                                 >
                                                                     {team.status}
@@ -109,7 +109,7 @@ export default function ParticipationList({ events, teams }: ParticipationListPr
                                                             {team.members.map((member, idx) => (
                                                                 <div
                                                                     key={idx}
-                                                                    className="flex items-center justify-between p-2.5 rounded-lg bg-muted/30 border border-border/30 hover:bg-muted/50 hover:border-primary/20 transition-all group/member"
+                                                                    className="flex items-center justify-between p-2.5 rounded-none bg-muted/30 border-2 border-black hover:bg-primary/20 transition-all group/member"
                                                                 >
                                                                     <div className="overflow-hidden mr-2">
                                                                         <p className="text-sm font-medium truncate group-hover/member:text-primary transition-colors">{member.name}</p>

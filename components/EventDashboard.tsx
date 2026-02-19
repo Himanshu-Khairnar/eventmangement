@@ -17,7 +17,7 @@ import { useData } from '@/lib/store';
 import Link from 'next/link';
 import { isToday, isFuture, isPast, format } from 'date-fns';
 
-export default function EventDashboard() {
+export default function EventDashboard({displayName}: {displayName: string}) {
   const { events, teams } = useData();
   const [searchTerm, setSearchTerm] = useState('');
   const [showAllEventsDialog, setShowAllEventsDialog] = useState(false);
@@ -50,7 +50,7 @@ export default function EventDashboard() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-headline font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back, Maya Brooks</p>
+          <p className="text-muted-foreground">Welcome back, {displayName}</p>
         </div>
         <div className="flex items-center gap-4 w-full md:w-auto">
           <div className="relative flex-1 md:w-64">

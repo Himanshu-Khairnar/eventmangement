@@ -53,7 +53,7 @@ export default function AdminSidebar() {
       </nav>
       <div className="p-4 border-t-4 border-black">
         <Button variant="outline" className="w-full justify-start gap-2 border-2 border-black rounded-none hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] hover:translate-x-[-2px] transition-all" asChild>
-          <Link href="/events">
+          <Link href="/">
             <ArrowLeft className="h-4 w-4" />
             Back to Site
           </Link>

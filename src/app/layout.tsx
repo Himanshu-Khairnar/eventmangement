@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { DataProvider } from "@/lib/store";
+import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata: Metadata = {
   title: 'CampusConnect',
@@ -25,7 +26,9 @@ export default function RootLayout({
       <body className="font-body antialiased min-h-screen bg-background text-foreground">
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
           <DataProvider>
+            <AuthProvider>
             {children}
+            </AuthProvider>
           </DataProvider>
         </ThemeProvider>
         <Toaster />

@@ -21,7 +21,7 @@ export default function LoginPage() {
     setIsLoading(true);
     // In a real app, you'd have a proper auth system.
     setTimeout(() => {
-      if (username === 'admin' && password === 'password') {
+      if (username === 'pnpm' && password === 'password') {
         router.push('/admin/dashboard');
       } else {
         toast({
